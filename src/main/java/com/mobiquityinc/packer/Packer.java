@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Jimmy Heller on 9/27/2018.
  */
 public class Packer {
-    final static Logger logger = Logger.getLogger(Packer.class);
+    private final static Logger logger = Logger.getLogger(Packer.class);
 
     public static void main(String[] args) {
         String inputFile;
@@ -39,7 +39,15 @@ public class Packer {
 
     }
 
-
+    /**
+     * the main method in the project , which will recieve a string file path and return the responses for all the
+     * file lines.
+     *
+     * @param in`putFile
+     * @return response for each line of the file that it reads
+     * @throws APIException
+     * @throws IOException
+     */
     protected static String pack(String inputFile) throws APIException, IOException {
         StringBuilder packageResponse = new StringBuilder();
         validateInputFile(inputFile);
@@ -74,6 +82,15 @@ public class Packer {
 
     }
 
+    /**
+     * after reading the input file and having the inputLinesList containing processed lines of input file, this method
+     * would create a list of ContainerPackage which has list of items that could be used in package. this method also
+     * validate the items and if any package item is not valid, it would not add it to the container object.
+     *
+     * @param inputLinesList
+     * @return List of container packages
+     * @throws APIException
+     */
     private static List<ContainerPackage> makeItemCollection(List<String> inputLinesList) throws APIException {
         logger.info("starting to create item collection list");
         //we need to make an ordered list based on reading the file, so linkedList is going to meet the needs
@@ -112,6 +129,14 @@ public class Packer {
         return packages;
     }
 
+    /**
+     * a method to read input file. in order to de-couple every module this method is working stand alone.
+     *
+     * @param inputFile
+     * @return list of lines that is read.
+     * @throws APIException
+     * @throws IOException
+     */
     private static List<String> readFile(String inputFile) throws APIException, IOException {
         List<String> inputs = new LinkedList<String>();
         File file = new File(inputFile);
@@ -130,7 +155,12 @@ public class Packer {
         return inputs;
     }
 
-
+    /**
+     * will validate any input file from existence perspective.
+     *
+     * @param inputFile
+     * @throws APIException
+     */
     protected static void validateInputFile(String inputFile) throws APIException {
         File input = new File(inputFile);
         logger.info("validating input file :" + input.getAbsolutePath());
